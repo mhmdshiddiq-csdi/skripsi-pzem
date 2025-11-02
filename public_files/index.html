@@ -1,0 +1,770 @@
+<!doctype html>
+
+<html
+  lang="en"
+  class="light-style layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-theme="theme-default"
+  data-template="horizontal-menu-template"
+  data-style="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>Sistem monitoring dan Pengendalian Konsumsi Energi Listrik</title>
+
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="Logo-UNY-Corel-terbaru.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
+      rel="stylesheet" />
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome.css" />
+    <link rel="stylesheet" href="assets/vendor/fonts/tabler-icons.css" />
+    <link rel="stylesheet" href="assets/vendor/fonts/flag-icons.css" />
+
+    <!-- Core CSS -->
+
+    <link rel="stylesheet" href="assets/vendor/css/rtl/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="assets/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css" />
+
+    <link rel="stylesheet" href="assets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+      <link rel="stylesheet" href="assets/vendor/libs/node-waves/node-waves.css" />
+      <link rel="stylesheet" href="assets/vendor/libs/sweetalert2/sweetalert2.css" />
+      <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+      <link rel="stylesheet" href="assets/vendor/libs/typeahead-js/typeahead.css" />
+
+    <!-- Page CSS -->
+
+    <!-- Helpers -->
+    <script src="assets/vendor/js/helpers.js"></script>
+    <script src="assets/js/config.js"></script>
+    <link rel="stylesheet" href="custom.css">
+  </head>
+
+  <body>
+  
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+      <div class="layout-container">
+        <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
+          <div class="container-xxl">
+            <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-4">
+              <a href="index.html" class="app-brand-link">
+                <img src="Logo-UNY-Corel-terbaru.png" width="30px" height="30px" alt="">
+                <span class="app-brand-text demo menu-text fw-bold">Sistem IOT PZEM</span>
+              </a>
+
+            </div>
+
+            <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+              <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+
+                <!-- Quick links  -->
+                <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown">
+                  <a
+                    class="nav-link btn btn-text-secondary btn-icon rounded-pill btn-icon dropdown-toggle hide-arrow"
+                    href="javascript:void(0);"
+                    data-bs-toggle="dropdown"
+                    data-bs-auto-close="outside"
+                    aria-expanded="false">
+                    <i class="ti ti-layout-grid-add ti-md"></i>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-end p-0">
+                    <div class="dropdown-menu-header border-bottom">
+                      <div class="dropdown-header d-flex align-items-center py-3">
+                        <h6 class="mb-0 me-auto">Shortcuts</h6>
+                        <a
+                          href="javascript:void(0)"
+                          class="btn btn-text-secondary rounded-pill btn-icon dropdown-shortcuts-add"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title="Add shortcuts"
+                          ><i class="ti ti-plus text-heading"></i
+                        ></a>
+                      </div>
+                    </div>
+                    <div class="dropdown-shortcuts-list scrollable-container">
+                      <div class="row row-bordered overflow-visible g-0">
+                        <div class="dropdown-shortcuts-item col">
+                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                            <i class="ti ti-calendar ti-26px text-heading"></i>
+                          </span>
+                          <a href="app-calendar.html" class="stretched-link">Set Threshold Watt</a>
+                        </div>
+                        <div class="dropdown-shortcuts-item col">
+                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                            <i class="ti ti-file-dollar ti-26px text-heading"></i>
+                          </span>
+                          <a href="app-invoice-list.html" class="stretched-link">Custom Status Table</a>
+                        </div>
+                      </div>
+                      <div class="row row-bordered overflow-visible g-0">
+                        <div class="dropdown-shortcuts-item col">
+                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                            <i class="ti ti-user ti-26px text-heading"></i>
+                          </span>
+                          <a href="app-user-list.html" class="stretched-link">User App</a>
+                          <small>Manage Users</small>
+                        </div>
+                        <div class="dropdown-shortcuts-item col">
+                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                            <i class="ti ti-users ti-26px text-heading"></i>
+                          </span>
+                          <a href="app-access-roles.html" class="stretched-link">Role Management</a>
+                          <small>Permission</small>
+                        </div>
+                      </div>
+                      <div class="row row-bordered overflow-visible g-0">
+                        <div class="dropdown-shortcuts-item col">
+                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                            <i class="ti ti-device-desktop-analytics ti-26px text-heading"></i>
+                          </span>
+                          <a href="index.html" class="stretched-link">Dashboard</a>
+                          <small>User Dashboard</small>
+                        </div>
+                        <div class="dropdown-shortcuts-item col">
+                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                            <i class="ti ti-settings ti-26px text-heading"></i>
+                          </span>
+                          <a href="pages-account-settings-account.html" class="stretched-link">Setting</a>
+                          <small>Account Settings</small>
+                        </div>
+                      </div>
+                      <div class="row row-bordered overflow-visible g-0">
+                        <div class="dropdown-shortcuts-item col">
+                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                            <i class="ti ti-help ti-26px text-heading"></i>
+                          </span>
+                          <a href="pages-faq.html" class="stretched-link">FAQs</a>
+                          <small>FAQs & Articles</small>
+                        </div>
+                        <div class="dropdown-shortcuts-item col">
+                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                            <i class="ti ti-square ti-26px text-heading"></i>
+                          </span>
+                          <a href="modal-examples.html" class="stretched-link">Modals</a>
+                          <small>Useful Popups</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Quick links -->
+
+                <!-- Notification -->
+                <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2">
+                  <a
+                    class="nav-link btn btn-text-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
+                    href="javascript:void(0);"
+                    data-bs-toggle="dropdown"
+                    data-bs-auto-close="outside"
+                    aria-expanded="false">
+                    <span class="position-relative">
+                      <i class="ti ti-bell ti-md"></i>
+                      <span class="badge rounded-pill bg-danger badge-dot badge-notifications border"></span>
+                    </span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end p-0">
+                    <li class="dropdown-menu-header border-bottom">
+                      <div class="dropdown-header d-flex align-items-center py-3">
+                        <h6 class="mb-0 me-auto">Notification</h6>
+                      </div>
+                    </li>
+                    <li class="dropdown-notifications-list scrollable-container">
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                          <div class="d-flex">
+                            <div class="flex-shrink-0 me-3">
+                              <div class="avatar">
+                                <img src="assets/img/avatars/1.png" alt class="rounded-circle" />
+                              </div>
+                            </div>
+                            <div class="flex-grow-1">
+                              <h6 class="small mb-1">Congratulation Lettie 🎉</h6>
+                              <small class="mb-1 d-block text-body">Won the monthly best seller gold badge</small>
+                              <small class="text-muted">1h ago</small>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <!--/ Notification -->
+
+                <!-- User -->
+                <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                  <a
+                    class="nav-link dropdown-toggle hide-arrow p-0"
+                    href="javascript:void(0);"
+                    data-bs-toggle="dropdown">
+                    <div class="avatar avatar-online">
+                      <img src="assets/img/avatars/1.png" alt class="rounded-circle" />
+                    </div>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                      <a class="dropdown-item mt-0" href="pages-account-settings-account.html">
+                        <div class="d-flex align-items-center">
+                          <div class="flex-shrink-0 me-2">
+                            <div class="avatar avatar-online">
+                              <img src="assets/img/avatars/1.png" alt class="rounded-circle" />
+                            </div>
+                          </div>
+                          <div class="flex-grow-1">
+                            <h6 class="mb-0">John Doe</h6>
+                            <small class="text-muted">Admin</small>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                    <li>
+                      <div class="dropdown-divider my-1 mx-n2"></div>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="pages-profile-user.html">
+                        <i class="ti ti-user me-3 ti-md"></i><span class="align-middle">My Profile</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="pages-account-settings-account.html">
+                        <i class="ti ti-settings me-3 ti-md"></i><span class="align-middle">Settings</span>
+                      </a>
+                    </li>
+                    <li>
+                      <div class="d-grid px-2 pt-2 pb-1">
+                        <button class="btn btn-sm btn-danger d-flex" id="logout-button">
+                          <small class="align-middle">Logout</small>
+                          <i class="ti ti-logout ms-2 ti-14px"></i>
+                        </button>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <!--/ User -->
+              </ul>
+            </div>
+        </nav>
+        <div class="layout-page">
+          <div class="content-wrapper">
+            <!-- Hero title section -->
+          <div class="hero-section">
+          <div class="container-xxl h-100">
+            <div class="d-flex align-items-center justify-content-center h-100">
+              <div class="d-flex align-items-center gap-4 hero-content">
+                <img class="hero-logo w-1/2" src="./Logo-UNY-Corel-terbaru.png" alt="Logo kiri" />
+                <h1 class="hero-title mb-0 text-center">
+                  SISTEM MONITORING DAN PENGENDALIAN <br/>KONSUMSI ENERGI LISTRIK
+                </h1>
+                <img class="hero-logo" src="./download.jpg" alt="Logo kanan" />
+              </div>
+            </div>
+          </div>
+          </div>
+                    <div class="toast-container position-fixed top-1/4 end-0" id="toast-container"></div>  
+            <!-- / Hero title section -->
+             <div class="row g-6 container-xxl m-auto">
+                 <!-- View sales -->
+               <div class="col-xl-4">
+                 <div class="card">
+                   <div class="d-flex align-items-end row">
+                      <div class="col-7">
+                      <div class="card-body text-nowrap">
+                        <h5 class="card-title mb-10">Kendali Lampu</h5>
+    <button id="btn-lamp-1" class="btn btn-secondary" data-lamp="1" aria-pressed="false">
+      Lampu 1: <span class="state">--</span>
+    </button>
+
+    <button id="btn-lamp-2" class="btn btn-secondary" data-lamp="2" aria-pressed="false">
+      Lampu 2: <span class="state">--</span>
+    </button>
+                      <!-- <div class="mt-3">
+                        <label class="form-label me-2">Threshold Watt</label>
+                        <input id="thr" type="number" step="0.1" value="20" style="width:120px">
+                        <button id="btnSetThreshold" class="btn btn-outline-primary ms-2" onclick="setThreshold()">Set</button> 
+                      </div> -->
+                      </div>
+                      </div>
+                      <div class="col-5 text-center text-sm-left">
+                        <div class="card-body pb-0 px-0 px-md-4">
+<svg xmlns="http://www.w3.org/2000/svg" width="140" height="140" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-bulb"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 11a1 1 0 0 1 .117 1.993l-.117 .007h-1a1 1 0 0 1 -.117 -1.993l.117 -.007h1z" /><path d="M12 2a1 1 0 0 1 .993 .883l.007 .117v1a1 1 0 0 1 -1.993 .117l-.007 -.117v-1a1 1 0 0 1 1 -1z" /><path d="M21 11a1 1 0 0 1 .117 1.993l-.117 .007h-1a1 1 0 0 1 -.117 -1.993l.117 -.007h1z" /><path d="M4.893 4.893a1 1 0 0 1 1.32 -.083l.094 .083l.7 .7a1 1 0 0 1 -1.32 1.497l-.094 -.083l-.7 -.7a1 1 0 0 1 0 -1.414z" /><path d="M17.693 4.893a1 1 0 0 1 1.497 1.32l-.083 .094l-.7 .7a1 1 0 0 1 -1.497 -1.32l.083 -.094l.7 -.7z" /><path d="M14 18a1 1 0 0 1 1 1a3 3 0 0 1 -6 0a1 1 0 0 1 .883 -.993l.117 -.007h4z" /><path d="M12 6a6 6 0 0 1 3.6 10.8a1 1 0 0 1 -.471 .192l-.129 .008h-6a1 1 0 0 1 -.6 -.2a6 6 0 0 1 3.6 -10.8z" /></svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- View sales -->
+
+                <!-- Statistics -->
+ <div class="col-xl-8 col-md-12">
+    <div class="card h-100">
+        <div class="card-header d-flex justify-content-between">
+            <h5 class="card-title mb-0">Update Nilai Tertinggi</h5>
+            <small class="text-muted" id="statsUpdated">Updated —</small>
+        </div>
+        <div class="card-body d-flex align-items-end">
+            <div class="w-100">
+                <div class="row gy-3">
+
+                    <div class="col-md-2 col-6">
+                        <div class="d-flex align-items-center">
+                            <div class="badge rounded bg-label-primary me-4 p-2">
+                                <i class="ti ti-chart-pie-2 ti-lg"></i>
+                            </div>
+                            <div class="card-info">
+                                <h5 class="mb-0" id="statVolt">-</h5>
+                                <small>Volt</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <div class="d-flex align-items-center">
+                            <div class="badge rounded bg-label-primary me-4 p-2">
+                                <i class="ti ti-chart-pie-2 ti-lg"></i>
+                            </div>
+                            <div class="card-info">
+                                <h5 class="mb-0" id="statWatt">-</h5>
+                                <small>Watt</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <div class="d-flex align-items-center">
+                            <div class="badge rounded bg-label-primary me-4 p-2">
+                                <i class="ti ti-chart-pie-2 ti-lg"></i>
+                            </div>
+                            <div class="card-info">
+                                <h5 class="mb-0" id="statAmp">-</h5>
+                                <small>Amperre</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <div class="d-flex align-items-center">
+                            <div class="badge rounded bg-label-primary me-4 p-2">
+                                <i class="ti ti-chart-pie-2 ti-lg"></i>
+                            </div>
+                            <div class="card-info">
+                                <h5 class="mb-0" id="statPf">-</h5>
+                                <small>PF</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <div class="d-flex align-items-center">
+                            <div class="badge rounded bg-label-primary me-4 p-2">
+                                <i class="ti ti-chart-pie-2 ti-lg"></i>
+                            </div>
+                            <div class="card-info">
+                                <h5 class="mb-0" id="statKwh">-</h5>
+                                <small>kWh</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <div class="d-flex align-items-center">
+                            <div class="badge rounded bg-label-primary me-4 p-2">
+                                <i class="ti ti-chart-pie-2 ti-lg"></i>
+                            </div>
+                            <div class="card-info">
+                                <h5 class="mb-0" id="statFreq">-</h5>
+                                <small>Frequency</small>
+                            </div>
+                        </div>
+                    </div>
+
+                </div></div>
+        </div>
+    </div>
+</div>
+                <!-- / Statistics -->
+              </div>
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="row">
+    <div class="col-12 mb-6">
+      <div class="card">
+        <div class="card-header header-elements">
+          <div>
+            <h5 class="card-title mb-0">Statistics</h5>
+            <div class="status" id="status">Status: initializing…</div>
+            <p class="card-subtitle my-0">Commercial networks and enterprises</p>
+          </div>
+        </div>
+
+        <div class="card-body pt-2">
+          
+          <div class="row g-4">
+            <div class="col-12 col-lg-4">
+              <h6 class="mb-2">Voltage (V)</h6>
+              <div class="chart-wrap">
+                <canvas id="voltChart"></canvas>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4">
+              <h6 class="mb-2">Power (W)</h6>
+              <div class="chart-wrap">
+                <canvas id="wattChart"></canvas>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4">
+              <h6 class="mb-2">Current (A)</h6>
+              <div class="chart-wrap">
+                <canvas id="ampChart"></canvas>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row g-4 mt-2">
+            <div class="col-12 col-lg-4">
+              <h6 class="mb-2">Energy (kWh)</h6>
+              <div class="chart-wrap">
+                <canvas id="kwhChart"></canvas>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4">
+              <h6 class="mb-2">Frequency (Hz)</h6>
+              <div class="chart-wrap">
+                <canvas id="freqChart"></canvas>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4">
+              <h6 class="mb-2">Power Factor (PF)</h6>
+              <div class="chart-wrap">
+                <canvas id="pfChart"></canvas>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        </div>
+    </div>
+  </div>
+  
+  <div class="card">
+    <h5 class="card-header">Small Table</h5>
+    
+    <a class="btn btn-sm btn-outline-primary w-1/4" width="50%" style="width: 20%; margin: auto; margin-bottom: 10px;" href="/api/export/csv">Export Excel (CSV)</a>
+
+    <div class="table-responsive text-nowrap">
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>Volt</th>
+            <th>Watt</th>
+            <th>Amperre</th>
+            <th>Power Factor</th>
+            <th>KWH</th>
+            <th>Frequency</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="liveTableBody" class="table-border-bottom-0"></tbody>
+      </table>
+      <nav aria-label="Table pagination" class="p-3">
+        <ul class="pagination pagination-sm mb-0" id="tablePager"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+            <!-- Footer -->
+            <footer class="content-footer footer bg-footer-theme">
+              <div class="container-xxl">
+                <div
+                  class="footer-container d-flex align-items-center justify-content-between py-4 flex-md-row flex-column">
+                  <div class="text-body">
+                    ©
+                    <script>
+                      document.write(new Date().getFullYear());
+                    </script>
+                    , made with ❤️ by <a href="https://mhmdshiddiq-portfolio-48b3.vercel.app/" target="_blank" class="footer-link">Muhammad Shiddiq Wicahyo</a>
+                  </div>
+                </div>
+              </div>
+            </footer>
+            <!-- / Footer -->
+
+            <div class="content-backdrop fade"></div>
+          </div>
+
+          <!--/ Content wrapper -->
+        </div>
+
+        <!--/ Layout container -->
+      </div>
+
+    </div>
+
+    <!-- Overlay -->
+
+    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+
+    <!--/ Layout wrapper -->
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+
+    <script src="assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="assets/vendor/libs/popper/popper.js"></script>
+    <script src="assets/vendor/js/bootstrap.js"></script>
+    <script src="assets/vendor/libs/node-waves/node-waves.js"></script>
+    <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="assets/vendor/libs/hammer/hammer.js"></script>
+    <script src="assets/vendor/libs/i18n/i18n.js"></script>
+    <script src="assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="assets/vendor/js/menu.js"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="assets/vendor/libs/chartjs/chartjs.js"></script>
+    <script src="assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
+
+    <!-- Main JS -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <!-- Page JS -->
+ <script src="app.js"></script>
+<script src="table.js"></script>
+<script src="stats.js"></script>
+<script>
+
+
+    function setButtonState(btn, on) {
+      const stateEl = btn.querySelector('.state');
+      if (on) {
+        btn.classList.remove('btn-secondary');
+        btn.classList.add('btn-success');
+        stateEl.textContent = 'ON';
+        btn.setAttribute('aria-pressed', 'true');
+        btn.dataset.state = 'on';
+      } else {
+        btn.classList.remove('btn-success');
+        btn.classList.add('btn-secondary');
+        stateEl.textContent = 'OFF';
+        btn.setAttribute('aria-pressed', 'false');
+        btn.dataset.state = 'off';
+      }
+    }
+
+    // set tombol ke mode loading sementara request ongoing
+    function setButtonLoading(btn, loading) {
+      if (loading) {
+        btn.classList.add('btn-loading');
+        btn.disabled = true;
+      } else {
+        btn.classList.remove('btn-loading');
+        btn.disabled = false;
+      }
+    }
+
+    // toggle lamp: kirim POST ke API Node.js (TIDAK BERUBAH)
+    async function toggleLampElement(btn) {
+      const lamp = btn.dataset.lamp;
+      const cur = (btn.dataset.state === 'on');
+      const next = !cur;
+      setButtonLoading(btn, true);
+      setButtonState(btn, next); // Optimistic UI
+      const url = `/api/kontrol`; 
+      try {
+        const res = await fetch(url, { 
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ lamp: lamp, state: next ? 'on' : 'off' })
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const js = await res.json();
+        if (!js || !js.ok) throw new Error('server error: ' + (js.error || 'unknown'));
+      } catch (err) {
+        console.error('Toggle failed', err);
+        setButtonState(btn, cur); // rollback
+        alert('Gagal mengubah relay: ' + err.message);
+      } finally {
+        setButtonLoading(btn, false);
+      }
+    }
+
+    // fetch status awal (TIDAK BERUBAH)
+    async function fetchAndApplyStatus() {
+        try {
+            const res = await fetch(`/api/status`);
+            if (!res.ok) return;
+            const data = await res.json();
+            const btn1 = document.getElementById('btn-lamp-1');
+            const btn2 = document.getElementById('btn-lamp-2');
+            if (data && typeof data.relay1 !== 'undefined') setButtonState(btn1, !!data.relay1);
+            if (data && typeof data.relay2 !== 'undefined') setButtonState(btn2, !!data.relay2);
+        } catch (e) {
+            console.warn('fetch status failed', e);
+        }
+    }
+async function setThreshold() {
+    const inputEl = document.getElementById('thr');
+    const buttonEl = document.getElementById('btnSetThreshold');
+    if (!inputEl || !buttonEl) return; // Elemen tidak ditemukan
+
+    const value = parseFloat(inputEl.value);
+
+    // 1. Validasi di sisi browser
+    if (isNaN(value) || value <= 0) {
+        alert('Masukkan nilai Watt threshold yang valid (angka positif).');
+        inputEl.focus();
+        return;
+    }
+
+    // 2. Disable tombol sementara
+    buttonEl.disabled = true;
+    buttonEl.textContent = 'Setting...';
+
+    try {
+        // 3. Kirim ke API Node.js
+        const res = await fetch('/api/threshold', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ value: value }) // Kirim sbg { "value": angka }
+        });
+
+        const js = await res.json();
+
+        // 4. Proses respons
+        if (!res.ok || !js.ok) {
+            throw new Error(js.error || `HTTP Error ${res.status}`);
+        }
+
+        // Sukses
+        alert(`Sukses! Threshold diatur ke ${js.threshold.toFixed(1)} W.`);
+        // Update nilai di input jika server mengembalikan nilai berbeda (opsional)
+        inputEl.value = js.threshold.toFixed(1); 
+
+    } catch (err) {
+        console.error('Gagal set threshold:', err);
+        alert('Gagal mengatur threshold: ' + err.message);
+    } finally {
+        // 5. Re-enable tombol
+        buttonEl.disabled = false;
+        buttonEl.textContent = 'Set';
+    }
+}
+
+    // attach handlers (TIDAK BERUBAH)
+function initRelayButtons() {
+    const btn1 = document.getElementById('btn-lamp-1'); // Gunakan ID asli
+    const btn2 = document.getElementById('btn-lamp-2');
+
+    // Pastikan tombol ditemukan
+    if (!btn1 || !btn2) {
+        console.error("Tombol lampu tidak ditemukan!");
+        return;
+    }
+
+    // Fungsi helper untuk menampilkan Swal dan memanggil aksi
+    const attachConfirmationHandler = (btn) => {
+        btn.addEventListener('click', () => {
+            // Jangan lakukan apa-apa jika tombol sedang disabled (misal karena overload)
+            if (btn.disabled && !btn.classList.contains('btn-loading')) {
+                 return;
+            }
+
+            const lamp = btn.dataset.lamp;
+            const currentStateIsOn = (btn.dataset.state === 'on');
+            const nextStateIsOn = !currentStateIsOn;
+
+            // Siapkan opsi SweetAlert berdasarkan aksi berikutnya
+            const swalOptions = {
+                title: nextStateIsOn ? `Nyalakan Lampu ${lamp}?` : `Matikan Lampu ${lamp}?`,
+                // text: "Anda tidak akan bisa mengembalikan ini!", // Opsional: Tambah teks
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: nextStateIsOn ? 'Ya, Nyalakan!' : 'Ya, Matikan!',
+                cancelButtonText: 'Batal',
+                customClass: {
+                    confirmButton: `btn ${nextStateIsOn ? 'btn-success' : 'btn-danger'} me-3 waves-effect waves-light`, // Sesuaikan warna tombol konfirmasi
+                    cancelButton: 'btn btn-label-secondary waves-effect waves-light'
+                },
+                buttonsStyling: false
+            };
+
+            // Tampilkan SweetAlert
+            Swal.fire(swalOptions).then((result) => {
+                // Jika user mengklik tombol konfirmasi ('Ya, Nyalakan!' atau 'Ya, Matikan!')
+                if (result.isConfirmed) {
+                    // Panggil fungsi asli yang mengirim perintah ke server
+                    // Kita tetap passing elemen button (btn) yang sama
+                    toggleLampElement(btn); 
+                }
+            });
+        });
+    };
+
+    // --- Inisialisasi Tombol ---
+    // Set state awal (tetap sama)
+    setButtonState(btn1, false);
+    setButtonState(btn2, false);
+
+    // Pasang handler konfirmasi ke masing-masing tombol
+    attachConfirmationHandler(btn1);
+    attachConfirmationHandler(btn2);
+
+    console.log('[Relay] Confirmation handlers attached.');
+}
+
+    // ===== INISIALISASI BARU (WebSocket) =====
+    initRelayButtons();
+    
+    // 1. Ambil status awal saat load
+    fetchAndApplyStatus();
+    
+    // 2. HAPUS: setInterval(fetchAndApplyStatus, 5000);
+
+    // 3. BARU: Dengarkan 'status_update' dari server
+    try {
+        const statusSocket = io();
+        statusSocket.on('status_update', (data) => {
+            console.log('Menerima status update (relay):', data);
+            const btn1 = document.getElementById('btn-lamp-1');
+            const btn2 = document.getElementById('btn-lamp-2');
+            if (data && typeof data.relay1 !== 'undefined') {
+                setButtonState(btn1, !!data.relay1);
+            }
+            if (data && typeof data.relay2 !== 'undefined') {
+                setButtonState(btn2, !!data.relay2);
+            }
+        });
+    } catch (e) {
+        console.error('Gagal menghubungkan status socket', e);
+    }
+    // --- BARU: Handler Logout ---
+document.getElementById('logout-button').addEventListener('click', async () => {
+    try {
+        const res = await fetch('/api/logout', { method: 'POST' });
+        const data = await res.json();
+        
+        if (data.ok) {
+            // Logout berhasil, redirect ke halaman login
+            window.location.href = '/login'; 
+        } else {
+            throw new Error(data.error);
+        }
+    } catch (err) {
+        alert('Gagal logout: ' + err.message);
+    }
+});
+</script>
+  </body>
+</html>

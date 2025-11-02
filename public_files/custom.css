@@ -1,0 +1,52 @@
+/* Wrapper mencegah resize loop yang bikin halaman “memanjang” */
+.chart-wrap {
+  height: 320px;           /* atur tinggi sekali di wrapper */
+  position: relative;      /* Chart.js rekomendasi */
+}
+
+.chart-wrap canvas {
+  width: 100% !important;
+  height: 100% !important; /* canvas isi wrapper, tidak menambah tinggi halaman */
+  display: block;          /* hilangkan extra descender space inline element */
+}
+
+/* Hero title area */
+.hero-section {
+  height: 200px;               /* ruang vertikal 500px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Opsional: beri background lembut
+  background: linear-gradient(180deg, rgba(0,0,0,0.03), transparent);
+  */
+}
+
+.hero-content {
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 50px;            /* ukuran teks 500px */
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--bs-heading-color, #111827);
+  /* Agar teks tidak “lompat” di perangkat kecil, Anda bisa gunakan clamp:
+     font-size: clamp(36px, 8vw, 100px);
+  */
+}
+
+.hero-logo {
+  width: 150px !important; 
+  height: 150px !important;
+  object-fit: contain;
+}
+
+/* Sedikit responsif agar tidak pecah di layar kecil */
+@media (max-width: 992px) {
+  .hero-title { font-size: 64px; }
+}
+@media (max-width: 576px) {
+  .hero-title { font-size: 42px; }
+  .hero-content { gap: 0.75rem !important; }
+}
