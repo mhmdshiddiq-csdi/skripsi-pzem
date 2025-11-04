@@ -40,13 +40,22 @@
     totalPages: 1,
     allData: [],
     isLoading: false,
-    pollingInterval: null
+    pollingInterval: null,
+    statusThresholds: {
+        warning: 30.0, // Nilai default jika gagal fetch
+        danger: 45.0
+    }
   };
+  function populateThresholdForm() {
+    document.getElementById('warning-threshold').value = state.statusThresholds.warning;
+    document.getElementById('danger-threshold').value = state.statusThresholds.danger;
+}
 
   // ===== UTILITY FUNCTIONS =====
 
   /**
    * Format angka dengan decimal places
+   * @param {number} watt - Nilai watt
    * @param {number} n - Angka yang akan diformat
    * @param {number} d - Jumlah decimal places
    * @returns {string} - Hasil format atau '-' jika invalid
@@ -74,24 +83,27 @@
    */
   function getStatusBadge(watt) {
     const v = Number(watt);
+    // Ambil nilai dari state global
+    const WARNING_THRESHOLD = state.statusThresholds.warning;
+    const DANGER_THRESHOLD = state.statusThresholds.danger;
 
     if (!isFinite(v)) {
       return '<span class="badge bg-secondary">Unknown</span>';
     }
 
-    // Watt > 45: Danger
-    if (v > 45) {
-      return '<span class="badge bg-label-danger">Bahaya</span>';
+    // Watt > DANGER_THRESHOLD: Bahaya
+    if (v > DANGER_THRESHOLD) {
+      return '<span class="badge bg-label-danger">Bahaya</span>';
     }
 
-    // Watt 30-45: Warning
-    if (v >= 30 && v <= 45) {
-      return '<span class="badge bg-label-warning text-dark">Warning</span>';
+    // Watt > WARNING_THRESHOLD: Warning (karena sudah pasti < DANGER_THRESHOLD)
+    if (v > WARNING_THRESHOLD) {
+      return '<span class="badge bg-label-warning text-dark">Warning</span>';
     }
 
-    // Watt 0-30: Safe
-    if (v > 0 && v < 30) {
-      return '<span class="badge bg-label-success">Aman</span>';
+    // Watt 0 - WARNING_THRESHOLD: Aman
+    if (v > 0) {
+      return '<span class="badge bg-label-success">Aman</span>';
     }
 
     // Watt = 0 atau invalid
@@ -138,7 +150,64 @@
       tbody.appendChild(tr);
     });
   }
+  async function handleThresholdFormSubmit(event) {
+    event.preventDefault();
 
+    const warningInput = document.getElementById('warning-threshold');
+    const dangerInput = document.getElementById('danger-threshold');
+    const saveButton = document.getElementById('save-threshold-btn');
+    const messageDiv = document.getElementById('threshold-message');
+
+    const warningValue = parseFloat(warningInput.value);
+    const dangerValue = parseFloat(dangerInput.value);
+
+    // Validasi Sederhana
+    if (warningValue <= 0 || dangerValue <= 0) {
+        showMessage(messageDiv, 'Batas harus lebih besar dari 0.', 'alert-danger');
+        return;
+    }
+    if (warningValue >= dangerValue) {
+        showMessage(messageDiv, 'Batas "Warning" harus lebih kecil dari batas "Bahaya".', 'alert-danger');
+        return;
+    }
+
+    saveButton.disabled = true;
+    saveButton.textContent = 'Menyimpan...';
+    messageDiv.style.display = 'none';
+
+    try {
+        const response = await fetch('/api/status/thresholds', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ warning: warningValue, danger: dangerValue })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.ok) {
+            // Update state lokal dan re-render tabel
+            state.statusThresholds = { warning: warningValue, danger: dangerValue };
+            renderCurrentPage(state.allData);
+            
+            showMessage(messageDiv, 'Batas status berhasil disimpan!', 'alert-success');
+        } else {
+            throw new Error(data.error || 'Gagal menyimpan konfigurasi.');
+        }
+
+    } catch (error) {
+        showMessage(messageDiv, 'Error: ' + error.message, 'alert-danger');
+    } finally {
+        saveButton.disabled = false;
+        saveButton.textContent = 'Simpan Batas Status';
+    }
+}
+function showMessage(element, text, className) {
+    element.textContent = text;
+    element.className = 'mt-2 alert ' + className;
+    element.style.display = 'block';
+}
   /**
    * Render pagination controls
    */
@@ -310,35 +379,29 @@
     renderCurrentPage();
   }
 
-  // ===== POLLING =====
-
-  /**
-   * Mulai polling untuk refresh data
-   */
-  function startPolling() {
-    console.log('[table] Starting polling every', CONFIG.POLLING_INTERVAL_MS, 'ms');
-
-    state.pollingInterval = setInterval(async () => {
-      try {
-        await loadAllData();
-      } catch (error) {
-        console.error('[table] Polling error:', error);
-      }
-    }, CONFIG.POLLING_INTERVAL_MS);
-  }
-
-  /**
-   * Stop polling
-   */
-  function stopPolling() {
-    if (state.pollingInterval) {
-      clearInterval(state.pollingInterval);
-      state.pollingInterval = null;
-      console.log('[table] Polling stopped');
-    }
-  }
 
   // ===== INITIALIZATION =====
+  async function loadStatusThresholds() {
+    try {
+        const response = await fetch('/api/status/thresholds', {
+            cache: 'no-store'
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        const json = await response.json();
+        
+        if (json.ok && json.data) {
+            state.statusThresholds = {
+                warning: parseFloat(json.data.warning) || 30.0,
+                danger: parseFloat(json.data.danger) || 45.0
+            };
+            console.log('[table] Status thresholds loaded:', state.statusThresholds);
+        }
+    } catch (error) {
+        console.error('[table] Gagal memuat status thresholds, menggunakan default.', error);
+    }
+}
 
   console.log('[table] Initializing realtime table…');
 
@@ -347,52 +410,67 @@
     pagerEl.addEventListener('click', handlePaginationClick);
   }
 
-// ... (semua kode tabel, 'loadAllData', 'renderCurrentPage', dll. tetap SAMA) ...
 
-  // ===================================
-  // ===== INISIALISASI BARU (WebSocket) =====
-  // ===================================
-  
-  // 1. Tetap panggil fungsi load data untuk data historis (1x saat load)
-  loadAllData();
+   // ===================================
+   // ===== INISIALISASI BARU (WebSocket) =====
+   // ===================================
+  
+   // 1. Tetap panggil fungsi load data untuk data historis (1x saat load)
+// 2. BARU: Muat Threshold sebelum data
+const statusFormEl = document.getElementById('status-threshold-form');
 
-  // 2. HAPUS: function startPolling() { ... }
-  // 3. HAPUS: loadAllData().then(startPolling)...
+if (statusFormEl) {
+    statusFormEl.addEventListener('submit', handleThresholdFormSubmit);
+    
+    // Panggil populate setelah data batas dimuat:
+    loadStatusThresholds().then(() => {
+        populateThresholdForm(); // BARU: Mengisi form dengan nilai dari DB
+        loadAllData();
+    });
+} else {
+    // Jika form tidak ditemukan, setidaknya load thresholds dan data
+    loadStatusThresholds().then(() => {
+        loadAllData();
+    });
+}
 
-  // 4. BARU: Mulai listener WebSocket
-  console.log('[table.js] Menghubungkan ke WebSocket...');
-  const socket = io();
+   // 2. HAPUS: function startPolling() { ... }
+   // 3. HAPUS: loadAllData().then(startPolling)...
 
-  socket.on('new_reading', (data) => {
-    // 'data' adalah JSON sensor baru (misal: {"volt":230, ...})
-    console.log('[table.js] Menerima data baru:', data);
+   // 4. BARU: Mulai listener WebSocket
+   console.log('[table.js] Menghubungkan ke WebSocket...');
+   const socket = io();
+
+   socket.on('new_reading', (data) => {
+     // 'data' adalah JSON sensor baru (misal: {"volt":230, ...})
+     console.log('[table.js] Menerima data baru:', data);
 
     // Tambahkan 'timestamp' dari server jika tidak ada
     if (!data.timestamp) {
         data.timestamp = new Date().toISOString();
     }
     
-    // Tambahkan data baru ke ATAS array
-    state.allData.unshift(data);
+     // Tambahkan data baru ke ATAS array
+     state.allData.unshift(data);
     if (state.allData.length > CONFIG.CACHE_MAX_ROWS) {
         state.allData.pop(); // Hapus data paling lama jika melebihi batas
     }
-    
+    
     // Update total & jumlah halaman di state
-    state.total = state.allData.length;
-    state.totalPages = Math.max(1, Math.ceil(state.total / CONFIG.PER_PAGE)); // Gunakan CONFIG.PER_PAGE
+     state.total = state.allData.length;
+     state.totalPages = Math.max(1, Math.ceil(state.total / CONFIG.PER_PAGE)); // Gunakan CONFIG.PER_PAGE
 
-    // Render ulang HANYA jika user ada di halaman 1
-    if (state.currentPage === 1) {
-      renderCurrentPage();
-    } else {
-      // Jika user di hal 2, kita bisa update Pager-nya saja
-      renderPager(); 
-    }
-  });
+     // Render ulang HANYA jika user ada di halaman 1
+     if (state.currentPage === 1) {
+        renderCurrentPage();
+     } else {
+        // Jika user di hal 2, kita bisa update Pager-nya saja
+        renderPager(); 
+     }
+   });
 
-  socket.on('connect_error', (err) => {
-    console.log('[table.js] WebSocket error: ' + err.message);
-  });
+   socket.on('connect_error', (err) => {
+     console.log('[table.js] WebSocket error: ' + err.message);
+   });
 
 })(); // <-- Akhir file

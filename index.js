@@ -26,40 +26,33 @@ const app = express();
 const server = http.createServer(app); // <-- BARU: Bungkus 'app' dengan server HTTP
 const io = new Server(server); // <-- BARU: Hubungkan socket.io ke server HTTP
 
-// --- 3. Konfigurasi Sesi (PENGGANTI $_SESSION) ---
 const sessionMiddleware = session({
   secret: 'iniadalahkunciyangsangatrahasiagantilainkali', // <-- GANTI INI
   resave: false,
   saveUninitialized: false,
   cookie: { 
-    secure: false, // Set 'true' jika Anda menggunakan HTTPS
-    maxAge: 1000 * 60 * 60 * 24 // Cookie berlaku 1 hari
+    secure: false,
+    maxAge: 1000 * 60 * 60 * 24 
   }
 });
 app.use(sessionMiddleware);
 app.use(express.json()); // Middleware untuk parse JSON body
 const checkAuth = (req, res, next) => {
   if (req.session.user) {
-    // Pengguna sudah login, lanjutkan
     next();
   } else {
-    // Pengguna belum login
     if (req.accepts('html')) {
-      // Jika minta halaman, redirect ke login
       res.redirect('/login.html');
     } else {
-      // Jika minta API, kirim error 401
       res.status(401).json({ ok: false, error: 'Akses ditolak. Silakan login.' });
     }
   }
 };
 
-// --- D. Rute Halaman (BARU) ---
 app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'public_files', 'login.html'));
 });
 
-// Halaman Dashboard Utama (DIPROTEKSI)
 app.get('/', checkAuth, (req, res) => {
   res.sendFile(path.join(__dirname, 'public_files', 'index.html'));
 });
@@ -70,7 +63,6 @@ let lastKnownRelay1 = false;
 let lastKnownRelay2 = false;
 
 
-// --- 2. Koneksi Database ---
 const db = mysql.createConnection(dbConfig);
 db.connect(err => {
   if (err) {
@@ -80,14 +72,12 @@ db.connect(err => {
   console.log('✅ Berhasil terhubung ke database MySQL.');
 });
 
-// --- 3. Koneksi Serial Port ---
 const port = new SerialPort({ path: SERIAL_PORT_PATH, baudRate: BAUD_RATE });
 const parser = port.pipe(new ReadlineParser({ delimiter: '\n' }));
 
 port.on('open', () => console.log(`✅ Port Serial ${SERIAL_PORT_PATH} terbuka.`));
 port.on('error', err => console.error('❌ Error Port Serial:', err.message));
 
-// --- 4. Listener Data Serial (Ingest) ---
 parser.on('data', line => {
   const trimmedLine = line.trim();
   
@@ -125,7 +115,6 @@ parser.on('data', line => {
   }
 });
 
-// Fungsi untuk memasukkan data ke database
 function insertToDB(data) {
   // Pastikan NAMA_KOLOM di atas sesuai
   const sql = `INSERT INTO ${NAMA_TABEL} (volt, ampere, watt, frequency, pf, kwh, ts) VALUES (?, ?, ?, ?, ?, ?, NOW())`;
@@ -358,9 +347,6 @@ app.get('/api/status', (req, res) => {
     // Anda bisa tambahkan query DB di sini untuk data sensor terakhir
   });
 });
-
-// TAMBAHKAN INI: API untuk data tabel dan chart
-// (Ini menggantikan app.js, table.js, stats.js Anda yang lama)
 app.get('/api/data', async (req, res) => {
     try {
         // Ambil data terbaru dari DB (contoh: 100 data terakhir)
@@ -373,7 +359,6 @@ app.get('/api/data', async (req, res) => {
         res.status(500).json({ ok: false, error: 'database error' });
     }
 });
-// API untuk export CSV (menggantikan export_all_excel.php)
 app.get('/api/export/csv', async (req, res) => {
   try {
     // 1. Ambil SEMUA data dari database
@@ -418,7 +403,6 @@ app.post('/api/threshold', (req, res) => {
   // 1. Ambil nilai dari body request (dikirim oleh JavaScript browser)
   const { value } = req.body;
   
-  // 2. Validasi nilai
   const thresholdValue = parseFloat(value);
   if (isNaN(thresholdValue) || thresholdValue <= 0) {
     console.error(`[API /api/threshold] Nilai tidak valid diterima: ${value}`);
@@ -426,7 +410,6 @@ app.post('/api/threshold', (req, res) => {
   }
 
   // 3. Buat perintah serial untuk ESP32
-  //    Gunakan toFixed(1) untuk mengirim 1 angka desimal, sesuaikan jika perlu
   const command = `THRESHOLD=${thresholdValue.toFixed(1)}\n`; 
 
   // 4. Kirim perintah ke Serial ESP32
@@ -441,9 +424,88 @@ app.post('/api/threshold', (req, res) => {
     res.json({ ok: true, threshold: thresholdValue });
   });
 });
+app.get('/api/status/thresholds', async (req, res) => {
+  try {
+    const [rows] = await db.promise().query('SELECT status_name, min_watt_exclusive FROM status_thresholds ORDER BY min_watt_exclusive ASC');
+    
+    const thresholds = rows.reduce((acc, row) => {
+      acc[row.status_name.toLowerCase()] = row.min_watt_exclusive;
+      return acc;
+    }, {});
 
+    res.json({ ok: true, data: thresholds });
+  } catch (err) {
+    console.error('[API /api/status/thresholds] Error:', err);
+    res.status(500).json({ ok: false, error: 'Gagal mengambil konfigurasi status.' });
+  }
+});
+app.post('/api/status/thresholds', async (req, res) => {
+  const { warning, danger } = req.body;
+
+  // --- Validasi ---
+  const warningVal = parseFloat(warning);
+  const dangerVal = parseFloat(danger);
+
+  if (isNaN(warningVal) || isNaN(dangerVal) || warningVal <= 0 || dangerVal <= 0) {
+      return res.status(400).json({ ok: false, error: 'Nilai harus angka positif.' });
+  }
+  if (warningVal >= dangerVal) {
+    return res.status(400).json({ ok: false, error: 'Batas Warning harus lebih kecil dari batas Danger.' });
+  }
+  try {
+    // 1. Mulai Transaksi
+    await db.promise().beginTransaction(); 
+
+    await db.promise().query(
+      'UPDATE status_thresholds SET min_watt_exclusive = ? WHERE status_name = ?', 
+      [warningVal, 'Warning']
+    );
+    await db.promise().query(
+      'UPDATE status_thresholds SET min_watt_exclusive = ? WHERE status_name = ?', 
+      [dangerVal, 'Danger']
+    );
+    await db.promise().commit(); 
+
+    res.json({ ok: true, message: 'Threshold status berhasil diperbarui.' });
+
+  } catch (err) {
+    console.error('[API POST /api/status/thresholds] Error:', err.message);
+    await db.promise().rollback();
+
+    res.status(500).json({ ok: false, error: 'Gagal memperbarui konfigurasi status (DB Error).' });
+  }
+});
+app.post('/api/register', async (req, res) => {
+  const { name, email, password } = req.body;
+  if (!email || !password || !name) {
+    return res.status(400).json({ ok: false, error: 'Name, email, and password are required.' });
+  }
+  if (password.length < 6) {
+    return res.status(400).json({ ok: false, error: 'Password must be at least 6 characters long.' });
+  }
+  try {
+    const [existingUser] = await db.promise().query(
+      'SELECT id FROM users WHERE email = ?', 
+      [email]
+    );
+
+    if (existingUser.length > 0) {
+      return res.status(409).json({ ok: false, error: 'Email ini sudah terdaftar.' });
+    }
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(password, salt);
+    await db.promise().query(
+      'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)',
+      [name, email, passwordHash]
+    );
+    console.log(`[Auth] Pengguna baru terdaftar: ${email}`);
+    res.status(201).json({ ok: true, message: 'Registrasi berhasil. Silakan login.' });
+  } catch (err) {
+    console.error('[Auth] Error saat registrasi:', err.message);
+    res.status(500).json({ ok: false, error: 'Internal server error' });
+  }
+});
 // --- 7. Jalankan Server ---
-// DIUBAH: Gunakan 'server.listen' BUKAN 'app.listen'
 server.listen(WEB_SERVER_PORT, () => {
   console.log(`✅ Web Server (HTTP + WebSocket) berjalan di http://localhost:${WEB_SERVER_PORT}`);
   console.log('Hentikan XAMPP, buka URL di atas di browser Anda.');

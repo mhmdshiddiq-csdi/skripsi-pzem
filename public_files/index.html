@@ -44,6 +44,7 @@
       <link rel="stylesheet" href="assets/vendor/libs/sweetalert2/sweetalert2.css" />
       <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
       <link rel="stylesheet" href="assets/vendor/libs/typeahead-js/typeahead.css" />
+      <link rel="stylesheet" href="assets/vendor/libs/animate-css/animate.css" />
 
     <!-- Page CSS -->
 
@@ -102,108 +103,22 @@
                           <span class="dropdown-shortcuts-icon rounded-circle mb-3">
                             <i class="ti ti-calendar ti-26px text-heading"></i>
                           </span>
-                          <a href="app-calendar.html" class="stretched-link">Set Threshold Watt</a>
+                          <button class="stretched-link" type="button" data-bs-toggle="modal"
+                          data-bs-target="#modalCenter">Set Threshold Watt</button>
                         </div>
                         <div class="dropdown-shortcuts-item col">
                           <span class="dropdown-shortcuts-icon rounded-circle mb-3">
                             <i class="ti ti-file-dollar ti-26px text-heading"></i>
                           </span>
-                          <a href="app-invoice-list.html" class="stretched-link">Custom Status Table</a>
-                        </div>
-                      </div>
-                      <div class="row row-bordered overflow-visible g-0">
-                        <div class="dropdown-shortcuts-item col">
-                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                            <i class="ti ti-user ti-26px text-heading"></i>
-                          </span>
-                          <a href="app-user-list.html" class="stretched-link">User App</a>
-                          <small>Manage Users</small>
-                        </div>
-                        <div class="dropdown-shortcuts-item col">
-                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                            <i class="ti ti-users ti-26px text-heading"></i>
-                          </span>
-                          <a href="app-access-roles.html" class="stretched-link">Role Management</a>
-                          <small>Permission</small>
-                        </div>
-                      </div>
-                      <div class="row row-bordered overflow-visible g-0">
-                        <div class="dropdown-shortcuts-item col">
-                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                            <i class="ti ti-device-desktop-analytics ti-26px text-heading"></i>
-                          </span>
-                          <a href="index.html" class="stretched-link">Dashboard</a>
-                          <small>User Dashboard</small>
-                        </div>
-                        <div class="dropdown-shortcuts-item col">
-                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                            <i class="ti ti-settings ti-26px text-heading"></i>
-                          </span>
-                          <a href="pages-account-settings-account.html" class="stretched-link">Setting</a>
-                          <small>Account Settings</small>
-                        </div>
-                      </div>
-                      <div class="row row-bordered overflow-visible g-0">
-                        <div class="dropdown-shortcuts-item col">
-                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                            <i class="ti ti-help ti-26px text-heading"></i>
-                          </span>
-                          <a href="pages-faq.html" class="stretched-link">FAQs</a>
-                          <small>FAQs & Articles</small>
-                        </div>
-                        <div class="dropdown-shortcuts-item col">
-                          <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                            <i class="ti ti-square ti-26px text-heading"></i>
-                          </span>
-                          <a href="modal-examples.html" class="stretched-link">Modals</a>
-                          <small>Useful Popups</small>
+                          <button class="stretched-link" type="button" data-bs-toggle="modal"
+                          data-bs-target="#modalCenterStatus">Custom Status Table</button>
                         </div>
                       </div>
                     </div>
                   </div>
                 </li>
+                
                 <!-- Quick links -->
-
-                <!-- Notification -->
-                <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2">
-                  <a
-                    class="nav-link btn btn-text-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
-                    href="javascript:void(0);"
-                    data-bs-toggle="dropdown"
-                    data-bs-auto-close="outside"
-                    aria-expanded="false">
-                    <span class="position-relative">
-                      <i class="ti ti-bell ti-md"></i>
-                      <span class="badge rounded-pill bg-danger badge-dot badge-notifications border"></span>
-                    </span>
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-end p-0">
-                    <li class="dropdown-menu-header border-bottom">
-                      <div class="dropdown-header d-flex align-items-center py-3">
-                        <h6 class="mb-0 me-auto">Notification</h6>
-                      </div>
-                    </li>
-                    <li class="dropdown-notifications-list scrollable-container">
-                      <ul class="list-group list-group-flush">
-                        <li class="list-group-item list-group-item-action dropdown-notifications-item">
-                          <div class="d-flex">
-                            <div class="flex-shrink-0 me-3">
-                              <div class="avatar">
-                                <img src="assets/img/avatars/1.png" alt class="rounded-circle" />
-                              </div>
-                            </div>
-                            <div class="flex-grow-1">
-                              <h6 class="small mb-1">Congratulation Lettie 🎉</h6>
-                              <small class="mb-1 d-block text-body">Won the monthly best seller gold badge</small>
-                              <small class="text-muted">1h ago</small>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-                <!--/ Notification -->
 
                 <!-- User -->
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
@@ -258,6 +173,73 @@
               </ul>
             </div>
         </nav>
+                        <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="modalCenterTitle">Set Threshold Watt</h5>
+                                <button
+                                  type="button"
+                                  class="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                <div class="row">
+                                  <div class="col mb-4">
+                                    <label for="thr" class="form-label">Watt</label>
+                                    <input
+                                      type="text"
+                                      id="thr"
+                                      class="form-control"
+                                      placeholder="Masukkan Watt" />
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                                  Close
+                                </button>
+                                <button type="button" class="btn btn-primary" id="btnSetThreshold" onclick="setThreshold()">Save changes</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal fade" id="modalCenterStatus" tabindex="-1" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="modalCenterTitle">Set Threshold Watt</h5>
+                                <button
+                                  type="button"
+                                  class="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                <div class="row">
+                                <div class="mb-3">
+                                    <label for="warning-threshold" class="form-label">Batas Awal Warning (>)</label>
+                                    <input type="number" step="0.1" class="form-control" id="warning-threshold" required>
+                                    <div class="form-text">Status Warning dimulai saat Watt melebihi nilai ini.</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="danger-threshold" class="form-label">Batas Awal Bahaya (>)</label>
+                                    <input type="number" step="0.1" class="form-control" id="danger-threshold" required>
+                                    <div class="form-text">Status Bahaya dimulai saat Watt melebihi nilai ini.</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                                Close
+                              </button>
+                              <button type="submit" id="save-threshold-btn" class="btn btn-primary">Save changes</button>
+                              <div id="threshold-message" class="mt-2" role="alert" style="display:none;"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
         <div class="layout-page">
           <div class="content-wrapper">
             <!-- Hero title section -->
@@ -291,11 +273,6 @@
     <button id="btn-lamp-2" class="btn btn-secondary" data-lamp="2" aria-pressed="false">
       Lampu 2: <span class="state">--</span>
     </button>
-                      <!-- <div class="mt-3">
-                        <label class="form-label me-2">Threshold Watt</label>
-                        <input id="thr" type="number" step="0.1" value="20" style="width:120px">
-                        <button id="btnSetThreshold" class="btn btn-outline-primary ms-2" onclick="setThreshold()">Set</button> 
-                      </div> -->
                       </div>
                       </div>
                       <div class="col-5 text-center text-sm-left">
@@ -536,6 +513,7 @@
     <!-- Main JS -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/ui-modals.js"></script>
 
     <!-- Page JS -->
  <script src="js/app.js"></script>
@@ -544,59 +522,59 @@
 <script>
 
 
-    function setButtonState(btn, on) {
-      const stateEl = btn.querySelector('.state');
-      if (on) {
-        btn.classList.remove('btn-secondary');
-        btn.classList.add('btn-success');
-        stateEl.textContent = 'ON';
-        btn.setAttribute('aria-pressed', 'true');
-        btn.dataset.state = 'on';
-      } else {
-        btn.classList.remove('btn-success');
-        btn.classList.add('btn-secondary');
-        stateEl.textContent = 'OFF';
-        btn.setAttribute('aria-pressed', 'false');
-        btn.dataset.state = 'off';
-      }
-    }
+ function setButtonState(btn, on) {
+  const stateEl = btn.querySelector('.state');
+  if (on) {
+  btn.classList.remove('btn-secondary');
+  btn.classList.add('btn-success');
+  stateEl.textContent = 'ON';
+  btn.setAttribute('aria-pressed', 'true');
+  btn.dataset.state = 'on';
+  } else {
+  btn.classList.remove('btn-success');
+  btn.classList.add('btn-secondary');
+  stateEl.textContent = 'OFF';
+  btn.setAttribute('aria-pressed', 'false');
+  btn.dataset.state = 'off';
+  }
+ }
 
-    // set tombol ke mode loading sementara request ongoing
-    function setButtonLoading(btn, loading) {
-      if (loading) {
-        btn.classList.add('btn-loading');
-        btn.disabled = true;
-      } else {
-        btn.classList.remove('btn-loading');
-        btn.disabled = false;
-      }
-    }
+ // set tombol ke mode loading sementara request ongoing
+ function setButtonLoading(btn, loading) {
+  if (loading) {
+  btn.classList.add('btn-loading');
+  btn.disabled = true;
+  } else {
+  btn.classList.remove('btn-loading');
+  btn.disabled = false;
+  }
+ }
 
-    // toggle lamp: kirim POST ke API Node.js (TIDAK BERUBAH)
-    async function toggleLampElement(btn) {
-      const lamp = btn.dataset.lamp;
-      const cur = (btn.dataset.state === 'on');
-      const next = !cur;
-      setButtonLoading(btn, true);
-      setButtonState(btn, next); // Optimistic UI
-      const url = `/api/kontrol`; 
-      try {
-        const res = await fetch(url, { 
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ lamp: lamp, state: next ? 'on' : 'off' })
-        });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const js = await res.json();
-        if (!js || !js.ok) throw new Error('server error: ' + (js.error || 'unknown'));
-      } catch (err) {
-        console.error('Toggle failed', err);
-        setButtonState(btn, cur); // rollback
-        alert('Gagal mengubah relay: ' + err.message);
-      } finally {
-        setButtonLoading(btn, false);
-      }
-    }
+ // toggle lamp: kirim POST ke API Node.js (TIDAK BERUBAH)
+ async function toggleLampElement(btn) {
+  const lamp = btn.dataset.lamp;
+  const cur = (btn.dataset.state === 'on');
+  const next = !cur;
+  setButtonLoading(btn, true);
+  setButtonState(btn, next); // Optimistic UI
+  const url = `/api/kontrol`; 
+  try {
+  const res = await fetch(url, { 
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ lamp: lamp, state: next ? 'on' : 'off' })
+  });
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  const js = await res.json();
+  if (!js || !js.ok) throw new Error('server error: ' + (js.error || 'unknown'));
+  } catch (err) {
+  console.error('Toggle failed', err);
+  setButtonState(btn, cur); // rollback
+  alert('Gagal mengubah relay: ' + err.message);
+  } finally {
+  setButtonLoading(btn, false);
+  }
+ }
 
     // fetch status awal (TIDAK BERUBAH)
     async function fetchAndApplyStatus() {
@@ -615,6 +593,8 @@
 async function setThreshold() {
     const inputEl = document.getElementById('thr');
     const buttonEl = document.getElementById('btnSetThreshold');
+    const btn1 = document.getElementById('btn-lamp-1'); // Gunakan ID asli
+    const btn2 = document.getElementById('btn-lamp-2');
     if (!inputEl || !buttonEl) return; // Elemen tidak ditemukan
 
     const value = parseFloat(inputEl.value);
